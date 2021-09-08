@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "../hooks/useForm";
+import { Error } from "./Error";
+import PropTypes from "prop-types";
 
 export const Form = ({ setBusqueda }) => {
   const [error, setError] = useState(false);
@@ -20,13 +22,12 @@ export const Form = ({ setBusqueda }) => {
     }
     setError(false);
     setBusqueda(formValues);
+    reset();
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      {error && (
-        <p className="red darken-4 error">Todos los campos son Obligatorios</p>
-      )}
+      {error && <Error mensaje="Ambos Campos son Obligatorios" />}
 
       <div className="input-field col s12">
         <input
@@ -41,16 +42,14 @@ export const Form = ({ setBusqueda }) => {
       </div>
 
       <div className="input-field col s12">
-        <select name="pais" id="pais" value={pais} onChange={handleInputChange}>
-          <option value="">-- Seleccione un pais--</option>
-          <option value="US">Estados Unidos</option>
-          <option value="MX">México</option>
-          <option value="AR">Argentina</option>
-          <option value="CO">Colombia</option>
-          <option value="CR">Costa Rica</option>
-          <option value="ES">España</option>
-          <option value="PE">Perú</option>
-        </select>
+        <input
+          type="text"
+          name="pais"
+          id="pais"
+          autoComplete="off"
+          value={pais}
+          onChange={handleInputChange}
+        />
         <label htmlFor="pais">Pais: </label>
 
         <div className="input-field col s12">
@@ -65,4 +64,8 @@ export const Form = ({ setBusqueda }) => {
       </div>
     </form>
   );
+};
+
+Form.propTypes = {
+  setBusqueda: PropTypes.func.isRequired,
 };
